@@ -106,7 +106,7 @@
               "pm.test('Error message for invalid login', function () {",
               "    const jsonData = pm.response.json();",
               "    pm.expect(jsonData).to.have.property('message');",
-              "    pm.expect(jsonData.message).to.include('User not found');",
+              "    pm.expect(jsonData.message).to.include('User not found!');",
               "});"
             ]
           }
