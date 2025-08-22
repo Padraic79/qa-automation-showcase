@@ -1,0 +1,16 @@
+{
+  "users": {
+    "validUser": {
+      "email": "testuser@example.com",
+      "password": "password123"
+    },
+    "invalidUser": {
+      "email": "invalid@example.com",
+      "password": "wrongpassword"
+    }
+  },
+  "products": {
+    "searchTerms": ["dress", "shirt", "jeans", "top"],
+    "categories": ["Women", "Men", "Kids"]
+  }
+}

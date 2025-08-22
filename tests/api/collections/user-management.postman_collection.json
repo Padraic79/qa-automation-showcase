@@ -1,0 +1,146 @@
+{
+  "info": {
+    "name": "User Management API",
+    "description": "API tests for user management functionality",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Get All Brands",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Status code is 200', function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test('Response has brands array', function () {",
+              "    const jsonData = pm.response.json();",
+              "    pm.expect(jsonData).to.have.property('brands');",
+              "    pm.expect(jsonData.brands).to.be.an('array');",
+              "    pm.expect(jsonData.brands.length).to.be.greaterThan(0);",
+              "});",
+              "",
+              "pm.test('Brand has required properties', function () {",
+              "    const jsonData = pm.response.json();",
+              "    const firstBrand = jsonData.brands[0];",
+              "    pm.expect(firstBrand).to.have.property('id');",
+              "    pm.expect(firstBrand).to.have.property('brand');",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/brandsList",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "brandsList"]
+        }
+      }
+    },
+    {
+      "name": "Verify Login - Valid Credentials",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Status code is 200', function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test('Login verification response', function () {",
+              "    const jsonData = pm.response.json();",
+              "    pm.expect(jsonData).to.have.property('responseCode');",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/x-www-form-urlencoded"
+          }
+        ],
+        "body": {
+          "mode": "urlencoded",
+          "urlencoded": [
+            {
+              "key": "email",
+              "value": "testuser@example.com",
+              "type": "text"
+            },
+            {
+              "key": "password",
+              "value": "password123",
+              "type": "text"
+            }
+          ]
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/verifyLogin",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "verifyLogin"]
+        }
+      }
+    },
+    {
+      "name": "Verify Login - Invalid Credentials",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Status code indicates authentication failure', function () {",
+              "    pm.response.to.have.status(404);",
+              "});",
+              "",
+              "pm.test('Error message for invalid login', function () {",
+              "    const jsonData = pm.response.json();",
+              "    pm.expect(jsonData).to.have.property('message');",
+              "    pm.expect(jsonData.message).to.include('User not found');",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/x-www-form-urlencoded"
+          }
+        ],
+        "body": {
+          "mode": "urlencoded",
+          "urlencoded": [
+            {
+              "key": "email",
+              "value": "invalid@example.com",
+              "type": "text"
+            },
+            {
+              "key": "password",
+              "value": "wrongpassword",
+              "type": "text"
+            }
+          ]
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/verifyLogin",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "verifyLogin"]
+        }
+      }
+    }
+  ]
+}

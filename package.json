@@ -3,7 +3,17 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "test:ui": "playwright test",
+    "test:ui:headed": "playwright test --headed",
+    "test:ui:debug": "playwright test --debug",
+    "test:api": "newman run tests/api/collections/user-management.postman_collection.json -e tests/api/environments/dev.postman_environment.json --reporters cli,junit --reporter-junit-export reports/api-results.xml",
+    "test:all": "npm run test:ui && npm run test:api",
+    "report:ui": "playwright show-report reports/playwright-html",
+    "allure:generate": "allure generate reports/allure-results --clean -o reports/allure-report",
+    "allure:serve": "allure serve reports/allure-results",
+    "lint": "eslint . --ext .ts",
+    "lint:fix": "eslint . --ext .ts --fix"
   },
   "keywords": [],
   "author": "",

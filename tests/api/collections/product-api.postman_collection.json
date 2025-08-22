@@ -1,0 +1,71 @@
+{
+  "info": {
+    "name": "Product API Tests",
+    "description": "API tests for product-related functionality",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Get All Products",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Status code is 200', function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test('Response time is less than 2000ms', function () {",
+              "    pm.expect(pm.response.responseTime).to.be.below(2000);",
+              "});",
+              "",
+              "pm.test('Response has products array', function () {",
+              "    const jsonData = pm.response.json();",
+              "    pm.expect(jsonData).to.have.property('products');",
+              "    pm.expect(jsonData.products).to.be.an('array');",
+              "    pm.expect(jsonData.products.length).to.be.greaterThan(0);",
+              "});",
+              "",
+              "pm.test('Product has required fields', function () {",
+              "    const jsonData = pm.response.json();",
+              "    const firstProduct = jsonData.products[0];",
+              "    pm.expect(firstProduct).to.have.property('id');",
+              "    pm.expect(firstProduct).to.have.property('name');",
+              "    pm.expect(firstProduct).to.have.property('price');",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/productsList",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "productsList"]
+        }
+      }
+    },
+    {
+      "name": "Search Product - Valid",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Status code is 200', function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test('Search returns products', function () {",
+              "    const jsonData = pm.response.json();",
+              "    pm.expect(jsonData).to.have.property('products');",
+              "    pm.expect(jsonData.products).to.be.an('array');",
+              "});",
+              "",
+              "pm.test('Products contain search term', function () {",
+              "    const jsonData = pm.response.json();",
+              "    if (jsonData.products && jsonData.products.length > 0) {",
+              "        const searchTerm = pm.variables.get('searchTerm').toLowerCase();",
